@@ -1,13 +1,15 @@
 <h1>Welcome to Mudika Vancouver</h1>
-<!--<nav>-->
-    <!--<ul>-->
+<nav>
+    <ul>
+        <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+        <li><a routerLink="/news" routerLinkActive="active">News</a></li>
         <!--<li *ngIf="!webService.isAuthenticated"><a routerLink="/login">Sign in</a></li>-->
         <!--<div class="g-signin2" data-onsuccess="onSignIn"></div>-->
         <!--<login *ngIf="!googleSigninService.isAuthenticated"></login>-->
         <!--<a href="#" *ngIf="googleSigninService.isAuthenticated" (click)="googleSigninService.signOut()">Sign out</a>        -->
         <!--<li *ngIf="webService.isAuthenticated"><button (click)="webService.logout()">Sign out</button></li>-->
-    <!--</ul>-->
-<!--</nav>-->
+    </ul>
+</nav>
 <ul>
     <li *ngFor="let item of items | async">
         {{ item | json }}
