@@ -1,1 +1,10 @@
-<h1>Hello {{user.firstName}}</h1>
+<h1>Dashboard</h1>
+
+<h3>Member List</h3>
+<ul>
+  <li *ngFor="let member of members | async">
+    <p>Name: {{ member.name }}</p>
+    <p>School: {{ member.school }}</p>
+    <p>Location: {{ member.location }}</p>
+  </li>
+</ul>
