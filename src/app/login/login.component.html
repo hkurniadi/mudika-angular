@@ -4,4 +4,10 @@
 <button (click)="login()">Login</button>-->
 
 <!--<div class="g-signin2"></div>-->
-<button id="googleSignin">Sign in</button>
+<!--<button id="googleSignin">Sign in</button>-->
+
+<h1>Login</h1>
+
+<div>User: {{ (user | async)?.uid }}</div>
+<button (click)="login()">Login</button>
+<button (click)="logout()">Logout</button>

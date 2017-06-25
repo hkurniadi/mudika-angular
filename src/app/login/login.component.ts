@@ -1,33 +1,44 @@
-import { Component, ElementRef, AfterViewInit } from '@angular/core';
-
-import { WebService } from '../web.service';
-import { GoogleSigninService } from '../google-signin.service';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable'; // to create an Observable Firebase User
+import { AngularFireAuth } from 'angularfire2/auth'; // enable use of Firebase Auth module
+import * as firebase from 'firebase/app'; // to create a Firebase namespace instance
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent {
 
-  loginPayload = {
-    email: '',
-    password: ''
-  }
+  user: Observable<firebase.User>;
+  googleSigninProvider = new firebase.auth.GoogleAuthProvider();
 
   constructor(
-    private element: ElementRef,
-    private webService: WebService,
-    private googleSigninService: GoogleSigninService
+    public afAuth: AngularFireAuth // is equivalent to firebase namespace
   ) {
-    console.log("Element:", element);
-  }
-
-  ngAfterViewInit() {
-    this.googleSigninService.googleSigninInit(this.element.nativeElement.firstChild);
+    this.user = afAuth.authState; // for checking the current user state in the application as 'user'
   }
 
   login() {
-    this.webService.login(this.loginPayload);
+    // this.webService.login(this.loginPayload);
+
+    // AngularFireAuth.auth (i.e. afAuth.auth) returns an initialized firebase.auth.Auth instance
+    this.afAuth.auth.signInWithRedirect(this.googleSigninProvider) // returns void, need to call getRedirectResult() to retreive login result
+    // this.afAuth.auth.getRedirectResult()
+    //     .then(result => {
+    //       if (result) {
+    //         console.log("Successfully logged in");
+    //         console.log("Login info:", result);
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log("Error while loggin in:", err);
+    //     });
   }
+
+  logout() {
+    this.afAuth.auth.signOut() // returns void
+  } 
 }
+
+// TODO: fix error when redirected to Google Signin
