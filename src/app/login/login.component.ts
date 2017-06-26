@@ -16,24 +16,45 @@ export class LoginComponent {
   constructor(
     public afAuth: AngularFireAuth // is equivalent to firebase namespace
   ) {
-    this.user = afAuth.authState; // for checking the current user state in the application as 'user'
+    this.user = afAuth.authState; // the property returns Observable<firebase.User> (i.e. firebase.user object)
   }
 
   login() {
     // this.webService.login(this.loginPayload);
 
     // AngularFireAuth.auth (i.e. afAuth.auth) returns an initialized firebase.auth.Auth instance
-    this.afAuth.auth.signInWithRedirect(this.googleSigninProvider) // returns void, need to call getRedirectResult() to retreive login result
+    
+    // returns void, need to call getRedirectResult() to retreive login result
+    this.afAuth.auth.signInWithRedirect(this.googleSigninProvider);
+
     // this.afAuth.auth.getRedirectResult()
-    //     .then(result => {
+    //     .then(function(result) {
     //       if (result) {
     //         console.log("Successfully logged in");
     //         console.log("Login info:", result);
     //       }
     //     })
-    //     .catch(err => {
+    //     .catch(function(err) {
     //       console.log("Error while loggin in:", err);
     //     });
+  }
+
+  getRedirectResult() {
+    this.afAuth.auth.getRedirectResult()
+        .then(function(result) {
+          if (result) {
+            console.log("Successfully logged in");
+            console.log("Login info:", result);
+          }
+        })
+        .catch(function(err) {
+          console.log("Error while loggin in:", err);
+        });
+  }
+
+  isLoggedin() {
+    let currentUserState = this.afAuth.auth.currentUser;
+    return currentUserState;
   }
 
   logout() {
@@ -41,4 +62,21 @@ export class LoginComponent {
   } 
 }
 
-// TODO: fix error when redirected to Google Signin
+// TODO
+// 1. fix redirection after signing in to check if user is logged in
+// 2. connect registered user in Authentication to the database
+// 3. check if the iframe element in the console unsafe 
+
+// User flow
+/*
+
+login()
+
+if (newUser) {
+  redirect to form page
+  fill in extra info (e.g. locaiton, school, etc)
+} 
+
+redirect to dashboard
+
+*/
