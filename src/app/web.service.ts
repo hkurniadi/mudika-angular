@@ -15,10 +15,10 @@ export class WebService {
 
   getUserData() {
     let data = {
-      firstName: 'Hans',
-      lastName: 'Kurniadi',
-      email: 'hans.d.k@live.com',
-      location: 'Coquitlam'
+      firstName: '',
+      lastName: '',
+      email: '',
+      location: ''
     };
 
     return data;
