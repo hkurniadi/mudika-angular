@@ -1,14 +1,5 @@
-<!--<h1>User Login</h1>
-<input [(ngModel)]="loginPayload.email" type="email" name="email" placeholder="Email">
-<input [(ngModel)]="loginPayload.password" type="password" name="password" placeholder="Password">
-<button (click)="login()">Login</button>-->
-
-<!--<div class="g-signin2"></div>-->
-<!--<button id="googleSignin">Sign in</button>-->
-
 <h1>Login</h1>
 
-
-<div *ngIf="userIsLoggedin">Hello {{ (user | async)?.displayName | json }}</div>
-<button (click)="login()">Login</button>
-<button (click)="logout()">Logout</button>
+<div *ngIf="userIsLoggedin">Hello {{ (user | async)?.displayName }}</div>
+<button *ngIf="!userIsLoggedin" (click)="login()">Login</button>
+<button *ngIf="userIsLoggedin" (click)="logout()">Logout</button>

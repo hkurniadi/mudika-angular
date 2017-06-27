@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-// import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
-import { WebService } from './web.service';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { LoginComponent } from './login/login.component';
 import { GoogleSigninService } from './google-signin.service';
 
 @Component({
@@ -9,19 +8,35 @@ import { GoogleSigninService } from './google-signin.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  // items: FirebaseListObservable<any[]>;
-  // instead of FirebaseListObservable, use the following
-  // items: FirebaseObjectObservable<any>;
-  constructor (
-    // db: AngularFireDatabase,
-    private webService: WebService,
+  
+  title: string = 'Mudika Vancouver';
+  userIsLoggedin: boolean;
+  
+  constructor(
     private googleSigninService: GoogleSigninService
   ) {
-    // .list() method (i.e. listening) takes in the node name in the firbase as its parameter
-    // This will also return an Observable, so we need to subscribe to it
-    // this.items = db.list('/members');
-    // this.items = db.object('/members');
-    // console.log("Items: ", this.items);
+    this.googleSigninService.user.subscribe(
+      (value) => {
+        if (value !== null) {
+          this.userIsLoggedin = true;
+          console.log("User is signed in", value);
+        } else {
+          this.userIsLoggedin = false;
+          console.log("User is not signed in");
+        }
+      },
+      (err) => {
+        console.log("Errors occured", err);
+      },
+      () => {
+        console.log("Finished");
+      }
+    );  
   }
-  title = 'Mudika Vancouver';
+
+  logout() {
+    this.googleSigninService.logout();
+    this.userIsLoggedin = false;
+  }
+
 }

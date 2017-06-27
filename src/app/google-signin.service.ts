@@ -1,46 +1,29 @@
 import { Injectable } from '@angular/core';
-
-declare const gapi: any;
+import { Observable } from 'rxjs/Observable'; // to create an Observable Firebase User
+import { AngularFireAuth } from 'angularfire2/auth'; // enable use of Firebase Auth module
+import * as firebase from 'firebase/app'; // to create a Firebase namespace instance
 
 @Injectable()
 export class GoogleSigninService {
 
-  auth2: any;
-  isAuthenticated: boolean = false;
+  user: Observable<firebase.User>;
+  googleSigninProvider = new firebase.auth.GoogleAuthProvider();
+  userIsLoggedin: boolean;
 
-  googleSigninInit(element) {
-    gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id: '122770693861-n9mdl5sl1ncq132hvn7cbd5t2b39oc04.apps.googleusercontent.com'
-      });
-      console.log("User signed in");
-      this.attachSignin(element);
-      console.log("After attachsignin function");
-    })
+  constructor(
+    public afAuth: AngularFireAuth, // is equivalent to firebase namespace
+  ) {
+    this.user = this.afAuth.authState; // the property returns Observable<firebase.User> (i.e. firebase.user object which will have value when signIn() is sucessful)
   }
 
-  attachSignin(element) {
-    // Attaches the sign-in flow to the specified container's click handler.
-    console.log("In attachsignin function");
-    this.auth2.attachClickHandler(element, {},
-      function (googleUser) {
-        this.isAuthenticated = true;
-        let profile = googleUser.getBasicProfile();
-        console.log('Token || ' + googleUser.getAuthResponse().id_token);
-        console.log('ID: ' + profile.getId());
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-        //YOUR CODE HERE
-      }, function (error) {
-        console.log(JSON.stringify(error, undefined, 2));
-      });
+  /* Was going to create the subscribe method, but apparently subscribing can't be exported, has to be done directly in the component that's using it */
+
+  login() {
+    // AngularFireAuth.auth (i.e. afAuth.auth) returns an initialized firebase.auth.Auth instance
+    this.afAuth.auth.signInWithRedirect(this.googleSigninProvider);
   }
 
-  signOut() {
-    let auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-  }
+  logout() {
+    this.afAuth.auth.signOut();
+  } 
 }

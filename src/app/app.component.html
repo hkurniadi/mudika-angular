@@ -2,13 +2,9 @@
 <nav>
     <ul>
         <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-        <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+        <li *ngIf="!userIsLoggedin"><a routerLink="/login" routerLinkActive="active">Login</a></li>
+        <li *ngIf="userIsLoggedin"><button (click)="logout()">Logout</button></li>
         <li><a routerLink="/news" routerLinkActive="active">News</a></li>
-        <!--<li *ngIf="!webService.isAuthenticated"><a routerLink="/login">Sign in</a></li>-->
-        <!--<div class="g-signin2" data-onsuccess="onSignIn"></div>-->
-        <!--<login *ngIf="!googleSigninService.isAuthenticated"></login>-->
-        <!--<a href="#" *ngIf="googleSigninService.isAuthenticated" (click)="googleSigninService.signOut()">Sign out</a>        -->
-        <!--<li *ngIf="webService.isAuthenticated"><button (click)="webService.logout()">Sign out</button></li>-->
     </ul>
 </nav>
 <ul>

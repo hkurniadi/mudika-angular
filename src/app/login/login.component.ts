@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Observable'; // to create an Observable Firebase User
-import { AngularFireAuth } from 'angularfire2/auth'; // enable use of Firebase Auth module
-import * as firebase from 'firebase/app'; // to create a Firebase namespace instance
+import { GoogleSigninService } from '../google-signin.service';
 
 @Component({
   selector: 'login',
@@ -10,23 +8,22 @@ import * as firebase from 'firebase/app'; // to create a Firebase namespace inst
 })
 export class LoginComponent {
 
-  user: Observable<firebase.User>;
-  googleSigninProvider = new firebase.auth.GoogleAuthProvider();
-  userIsLoggedin: boolean = false;
+  userIsLoggedin: boolean;
+  user;
 
   constructor(
-    public afAuth: AngularFireAuth // is equivalent to firebase namespace
+    private googleSigninService: GoogleSigninService
   ) {
-    this.user = afAuth.authState; // the property returns Observable<firebase.User> (i.e. firebase.user object)
-
-    // This subscription is to check user current state whether loggedin or not (the checking is ongoing since it is an observable)
+    this.user = this.googleSigninService.user;
     this.user.subscribe(
       // 'value' is whatever value emitted by afAut.authState whenever it emits new value
       (value) => {
-        if (value !== null) { // is currentUser object is not null i.e. user is logged in
+        if (value !== null) { // is currentUser object is not null, then user is logged in
           this.userIsLoggedin = true;
           console.log("User is signed in", value);
-          // TODO: add redirection to fill up more info about the user (e.g. location, school, etc)
+          // TODO: 
+          // 1. add redirection to fill up more info about the user (e.g. location, school, etc)
+          // 2. improve performance after logging in is still currently slow
         } else {
           this.userIsLoggedin = false;
           console.log("User is not signed in");
@@ -41,16 +38,15 @@ export class LoginComponent {
     );
   }
 
-  login() {
-    // AngularFireAuth.auth (i.e. afAuth.auth) returns an initialized firebase.auth.Auth instance
-    // returns void, need to call getRedirectResult() to retreive login result
-    this.afAuth.auth.signInWithRedirect(this.googleSigninProvider);
+  login(){
+    this.googleSigninService.login();
   }
 
   logout() {
-    this.afAuth.auth.signOut() // returns void
+    this.googleSigninService.logout();
     this.userIsLoggedin = false;
-  } 
+  }
+
 }
 
 // TODO
