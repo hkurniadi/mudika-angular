@@ -9,7 +9,6 @@
 <h1>Login</h1>
 
 
-<div *ngIf="isLoggedin() !== null">Hello {{ (user | async)?.displayName | json }}</div>
+<div *ngIf="userIsLoggedin">Hello {{ (user | async)?.displayName | json }}</div>
 <button (click)="login()">Login</button>
 <button (click)="logout()">Logout</button>
-<!--<button (click)="onAuthStateChanged()">Toggle onAuthStateChanged</button>-->
