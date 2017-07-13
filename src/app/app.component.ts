@@ -1,5 +1,4 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { LoginComponent } from './login/login.component';
 import { GoogleSigninService } from './google-signin.service';
 
 @Component({
@@ -8,7 +7,7 @@ import { GoogleSigninService } from './google-signin.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  
+
   title: string = 'Mudika Vancouver';
   userIsLoggedin: boolean;
   
@@ -19,10 +18,10 @@ export class AppComponent {
       (value) => {
         if (value !== null) {
           this.userIsLoggedin = true;
-          console.log("User is signed in", value);
+          console.log("<App> User is signed in", value);
         } else {
           this.userIsLoggedin = false;
-          console.log("User is not signed in");
+          console.log("<App> User is not signed in");
         }
       },
       (err) => {
@@ -40,3 +39,6 @@ export class AppComponent {
   }
 
 }
+
+// TODO:
+// 1. Make the login state global

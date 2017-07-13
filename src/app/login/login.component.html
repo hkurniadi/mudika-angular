@@ -3,3 +3,7 @@
 <div *ngIf="userIsLoggedin">Hello {{ (user | async)?.displayName }}</div>
 <button *ngIf="!userIsLoggedin" (click)="login()">Login</button>
 <button *ngIf="userIsLoggedin" (click)="logout()">Logout</button>
+
+<!--<div *ngIf="(user | async)">Hello {{ (user | async)?.displayName }}</div>
+<button *ngIf="!(user | async)" (click)="login()">Login</button>
+<button *ngIf="(user | async)" (click)="logout()">Logout</button>-->
