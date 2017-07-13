@@ -20,13 +20,13 @@ export class LoginComponent {
       (value) => {
         if (value !== null) { // is currentUser object is not null, then user is logged in
           this.userIsLoggedin = true;
-          console.log("User is signed in", value);
+          console.log("<Login> User is signed in", value);
           // TODO: 
           // 1. add redirection to fill up more info about the user (e.g. location, school, etc)
           // 2. improve performance after logging in is still currently slow
         } else {
           this.userIsLoggedin = false;
-          console.log("User is not signed in");
+          console.log("<Login> User is not signed in");
         }
       },
       (err) => {
@@ -50,7 +50,6 @@ export class LoginComponent {
 }
 
 // TODO
-// DONE 1. fix redirection after signing in to check if user is logged in
 // 2. connect registered user in Authentication to the database
 // 3. check if the iframe element in the console unsafe 
 
