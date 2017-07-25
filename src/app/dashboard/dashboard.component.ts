@@ -24,7 +24,7 @@ export class DashboardComponent {
           this.userIsLoggedin = true;
           this.members = db.list('/members');
           console.log("<Dashboard> User is signed in", value);
-          console.log("Members: ", this.members);
+          // console.log("Members: ", this.members);
         } else {
           this.userIsLoggedin = false;
           console.log("<Dashboard>  User is not signed in");

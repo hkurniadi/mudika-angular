@@ -13,12 +13,12 @@
   TODO: change this additional info form to a separate form component
   learn Angular Form for guides
 -->
-<div id="additional-info">
+<div id="additional-info" [hidden]="!additionalNeeded">
   <!-- <input #schoolForm 
     (keyup.enter)="onKey(schoolForm.value)"
      (blur)="onKey(schoolForm.value)"> -->
    <!-- <p>{{school}}</p>  -->
-   <form #additionalForm="ngForm">
+   <form (ngSubmit)="onSubmit(additionalForm)"#additionalForm="ngForm">
     <label for="school">School</label>
     <select id="school" 
             [(ngModel)]="school"
@@ -30,9 +30,12 @@
     <label for="homeCell">Home Cell Group</label>
     <select id="homeCell"
             [(ngModel)]="homeCell"
-            name="homeCell">
+            name="homeCell"
+            required>
       <option *ngFor="let cellgroup of cellgroups" [value]="cellgroup">{{cellgroup}}</option>
     </select>
+    <br>
+    <button type="submit" [disabled]="!additionalForm.form.valid">Submit</button>
   </form>
   <!-- To be removed when finished  -->
   <!-- {{diagnostic}} -->
