@@ -7,3 +7,33 @@
 <!--<div *ngIf="(user | async)">Hello {{ (user | async)?.displayName }}</div>
 <button *ngIf="!(user | async)" (click)="login()">Login</button>
 <button *ngIf="(user | async)" (click)="logout()">Logout</button>-->
+
+
+<!-- 
+  TODO: change this additional info form to a separate form component
+  learn Angular Form for guides
+-->
+<div id="additional-info">
+  <!-- <input #schoolForm 
+    (keyup.enter)="onKey(schoolForm.value)"
+     (blur)="onKey(schoolForm.value)"> -->
+   <!-- <p>{{school}}</p>  -->
+   <form #additionalForm="ngForm">
+    <label for="school">School</label>
+    <select id="school" 
+            [(ngModel)]="school"
+            name="school"
+            required>
+      <option *ngFor="let school of schools" [value]="school">{{school}}</option>
+    </select>
+    <br>
+    <label for="homeCell">Home Cell Group</label>
+    <select id="homeCell"
+            [(ngModel)]="homeCell"
+            name="homeCell">
+      <option *ngFor="let cellgroup of cellgroups" [value]="cellgroup">{{cellgroup}}</option>
+    </select>
+  </form>
+  <!-- To be removed when finished  -->
+  <!-- {{diagnostic}} -->
+</div>

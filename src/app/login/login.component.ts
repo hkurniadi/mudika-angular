@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GoogleSigninService } from '../google-signin.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login',
@@ -10,9 +11,14 @@ export class LoginComponent {
 
   userIsLoggedin: boolean;
   user;
+  schools: Array<string> = ['UBC', 'SFU', 'Douglas College', 'Langara College', 'Columbia College'];
+  cellgroups: Array<string> = ['St. Sebastian', 'St. Raphael the Archangel', 'St. Fidelis', 'St. Odilia'];
+  school: string;
+  homeCell: string;
 
   constructor(
-    private googleSigninService: GoogleSigninService
+    private googleSigninService: GoogleSigninService,
+    private router: Router
   ) {
     this.user = this.googleSigninService.user;
     this.user.subscribe(
@@ -21,6 +27,7 @@ export class LoginComponent {
         if (value !== null) { // is currentUser object is not null, then user is logged in
           this.userIsLoggedin = true;
           console.log("<Login> User is signed in", value);
+          // this.router.navigate(['/dashboard']);
           // TODO: 
           // 1. add redirection to fill up more info about the user (e.g. location, school, etc)
           // 2. improve performance after logging in is still currently slow
@@ -46,6 +53,15 @@ export class LoginComponent {
     this.googleSigninService.logout();
     this.userIsLoggedin = false;
   }
+
+  get diagnostic() {
+    return this.homeCell;
+  }
+
+  // onEnter(value) {
+  //   this.school = value;
+  //   console.log("Template reference value", this.school);
+  // }
 
 }
 
